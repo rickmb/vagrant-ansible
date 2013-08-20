@@ -19,6 +19,8 @@
 
 The result will depend on your Vagrantfile settings and the playbook you selected. The current default is a complete CaaS development environment including the "main" site up and running at http://main-caas.local.webclusive.net:8080 . (*.local.webclusive.net points to 127.0.0.1). Also, if you go to http://127.0.0.1:8080, there will be some basic info there.
 
+*Note: Vagrant may report a failure from Ansible despite 0 failed tasks. This is a known issue in the Vagrant Ansible module, it doesn't hurt and will be fixed in later releases.*
+
 ## Contents
 
 * **VagrantFile** : Vagrant configuration.
