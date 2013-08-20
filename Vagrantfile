@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.synced_folder "projects/", "/home/vagrant/projects", :owner => "vagrant", :group => "www-data", :extra => 'dmode=775,fmode=775'
 
-  # Here you can change the playbook or the hosts file for Ansible
+  # Here you can change the playbook or the hosts file for Ansible.
   #
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "ansible/caas-development.yml"

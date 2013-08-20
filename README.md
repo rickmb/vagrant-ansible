@@ -12,9 +12,9 @@
 1. Clone this repo.
 1. Edit Vagrantfile. Or at least read it so you know what's going to happen.
 1. Type "vagrant up".
-1. Get some coffee, this could take a while.
+1. Get some coffee.
 1. ...
-1. Seriously, get that coffee.
+1. Seriously, get that coffee. If this is the first time you're initializing this box, this is going to take a while.
 1. ...
 
 The result will depend on your Vagrantfile settings and the playbook you selected. The current default is a complete CaaS development environment including the "main" site up and running at http://main-caas.local.webclusive.net:8080 . (*.local.webclusive.net points to 127.0.0.1). Also, if you go to http://127.0.0.1:8080, there will be some basic info there.
@@ -38,6 +38,8 @@ It currently contains the following:
 * **development** : This file contains the hosts Ansible has to provision for development. It's just a single entry with the IP address of the Vagrant box.
 * **caas-development.yml** : This is the playbook for a CaaS development box. It's basically just a lost of "roles" to be applied. Just read the file.
 * **roles/** : This contains various partial playbooks for specific purposes. The structure is based on Ansible's best practices guide and defaults. Some of these roles are ridiculously simple, but splitting them up this way allows re-use without duplication.
+
+The roles folder structure makes the Ansible playbook look a bit more complex than it really is. For instance, 95% of what you need for a LAMP system is all in this single file: https://github.com/rickmb/vagrant-ansible/blob/master/ansible/roles/common/tasks/main.yml
 
 #### roles/
 
@@ -76,6 +78,7 @@ I would also suggest destroying the VM (vagrant destroy) and bringing it back up
 * Complete this documentation.
 * Make it possible to easily pre-select which CaaS-sites to configure.
 * Make the playbook more robust.
+* Add some playbooks for basic non-CaaS projects. (Which is basically just omitting the caas-development role.)
 * Create a playbook for setting up an EC2 instance instead of a Vagrant box.
 * Create a playbook for simulating CaaS production environments.
 
