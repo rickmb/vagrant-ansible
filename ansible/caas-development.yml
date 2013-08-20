@@ -1,0 +1,33 @@
+---
+# This playbook will set up a vagrant box for CaaS development.
+# See the various roles (especially roles/*/tasks/main.yml) for more details.
+
+# Looks for the [vagrant] section in the hosts file to determine which machines
+# to operate on.
+- hosts: vagrant
+  sudo: True
+  # Looks for roles/{role}/tasks/main.yml for tasks, roles/{role}/handlers/main.yml  
+  # for handlers, etcetera.
+  roles:
+    # Standard LAMP stuff, including common Apache and PHP mods, minus MySQL server
+    - common
+    # MySQL server commes separate, you don't want this if you're using an external DB.
+    - dbserver
+    # Development tools. Think SASS/Compass, Git, etc.
+    - development
+    # Prepare the machine for CaaS development
+    - caas-development
+
+# Yeah, that's it.
+# How to use:
+#
+# CLI:
+#
+# $ ansible-playbook -i {hosts} {playbook}.yml
+#
+# In VagrantFile:
+#
+# config.vm.provision :ansible do |ansible|
+#   ansible.playbook = "ansible/{playbook}.yml"
+#   ansible.inventory_file = "ansible/{hosts}"
+# end

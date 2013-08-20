@@ -1,0 +1,5 @@
+- name: MySQL | Server
+  action: apt pkg=mysql-server state=installed
+  notify: restart mysql
+
+

@@ -1,0 +1,24 @@
+# Turns off strict host key checking, so the provisioning doesn't stall
+- name: CaaS Development | install ~/.ssh/config
+  copy: src=ssh-config dest={{ dev_home }}/.ssh/config force=no
+
+# Make sure the developers' ssh-key is available inside the box
+- name: CaaS Development | adding your private key for Github access
+  copy: src={{ caas_git_key }} dest={{ dev_home }}/.ssh/id_rsa force=no
+
+# Checks out CaaS, if it's not already there
+- name: CaaS Development | CaaS checkout
+  git: repo=git@github.com:WEBclusive/Caas.git dest={{ dev_projects }}/Caas update=no
+  sudo_user: vagrant
+
+- name: CaaS Development | Install caas init script
+  copy: src=caas-init.sh dest={{ dev_home }}/caas-init.sh mode=0755 owner=vagrant
+
+- name: CaaS Development | Run the caas init script
+  action: command {{ dev_home }}/caas-init.sh chdir={{ dev_projects }}/Caas
+  # creates={{ dev_projects }}/Caas/web/media/upload
+  sudo_user: vagrant
+
+# Installs a specific CaaS site
+- include: site.yml
+

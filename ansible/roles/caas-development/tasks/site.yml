@@ -1,0 +1,38 @@
+# Add a vhost config, but don't overwrite an existing one
+- name: CaaS Development | Main vhost config
+  template: src=apache-caas-dev-site.j2 dest=/etc/apache2/sites-available/caas-dev-{{ caas_site }} force=no
+
+# Make sure the vhost is enabled
+- name: CaaS Development | Enable caas development vhost
+  command: a2ensite caas-dev-{{ caas_site }} 
+  notify: restart apache
+
+#- name: CaaS Development | Disable default vhosts
+#  command: a2dissite default
+#  notify: restart apache
+
+- name: CaaS Development | Create database {{ caas_db }} 
+  mysql_db: name={{ caas_db }} state=present
+  register: db_creation_result
+
+# Installing parameters.yml from local template.
+# (the parameters.yml that comes with CaaS is outdated)
+- name: CaaS Development | Install parameters.yml for {{ caas_site }}
+  template: src=parameters-yml.j2 dest={{ dev_projects }}/Caas/sites/{{ caas_site }}/config/parameters.yml force=no mode=0644 owner=vagrant
+
+- name: CaaS Development | Warmup cache for {{ caas_site }}
+  command: app/console cache:warmup --site {{ caas_site }} -e dev --no-interaction chdir={{ dev_projects }}/Caas
+
+- name: CaaS Development | Run migrations for {{ caas_site }}
+  command: app/console doctrine:migrations:migrate --site {{ caas_site }} --no-interaction chdir={{ dev_projects }}/Caas
+
+- name: CaaS Development | Compass compile
+  command: app/console compass:compile --site {{ caas_site }} --no-interaction chdir={{ dev_projects }}/Caas
+
+- name: CaaS Development | Install assets
+  command: app/console assets:install web --site {{ caas_site }} --no-interaction chdir={{ dev_projects }}/Caas
+
+- name: CaaS Development | Populate brand new database with dummy data
+  command: app/console doctrine:fixtures:load --fixtures=src/Caas/Bundle/WebBundle/Tests/DataFixtures/ -e dev --site {{ caas_site }} --no-interaction chdir={{ dev_projects }}/Caas
+  when: db_creation_result.changed
+

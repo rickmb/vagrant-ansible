@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerName {{ caas_site }}-caas.local.webclusive.net
+	SetEnv APP_ENV dev
+	SetEnv APP_SITE {{ caas_site }}
+
+	DocumentRoot {{ dev_projects }}/Caas/web
+
+	<Directory {{ dev_projects }}/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+</VirtualHost>

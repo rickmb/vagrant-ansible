@@ -1,0 +1,3 @@
+caas_git_key : ~/.ssh/id_rsa
+caas_db : caas_main
+caas_site : main

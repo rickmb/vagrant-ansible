@@ -1,0 +1,44 @@
+# Update the repo, because most boxes are heavily outdated
+- name: Commmon | Update repository
+  action: command /usr/bin/apt-get update
+
+- name: Apache | Install
+  action: apt pkg=apache2 state=installed
+
+- name: Apache | Enable some required modules
+  action: command a2enmod $item
+  notify: restart apache
+  with_items:
+    - rewrite 
+    - vhost_alias
+    - headers
+    - expires
+    - filter
+    - ssl
+
+- name: PHP | Core and required modules
+  action: apt pkg=$item state=installed
+  notify: restart apache
+  tags: common
+  with_items:
+    - php5
+    - php5-mysql
+    - php5-xmlrpc
+    - php-soap
+    - php5-gd
+    - php-apc
+    - php5-curl
+    - php5-intl
+    - php5-memcached
+
+# Only install the client, you may want to use the DB-server on a different machine
+- name: MySQL | Client only
+  action: apt pkg=mysql-client state=installed
+
+# Need this to run mysql commands via Ansible
+- name: CaaS Development | Ensure python-mysqldb is available
+  apt: pkg=python-mysqldb state=installed
+
+# Install ACL, but you'll have to do the mount config yourself in most cases
+- name: ACL | Have ACL available
+  action: apt pkg=acl state=installed

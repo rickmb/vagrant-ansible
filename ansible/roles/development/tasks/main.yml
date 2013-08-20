@@ -1,0 +1,25 @@
+- name: Development | Install Git
+  action: apt pkg=git state=installed
+
+- name: Development | Ruby for tools
+  action: apt pkg=ruby1.9.1 state=installed
+
+- name: Development | Sass
+  gem: name=sass state=present
+
+- name: Development | Compass
+  gem: name=compass state=present
+
+# not sure about this, can't pass --pre
+# maybe replace with "command gem install sass-globbing -v 1.0.0.rc.2 --pre"
+- name: Development | Sass globbing
+  gem: name=sass-globbing version=1.0.0.rc.2 state=present 
+
+- name: Development | Install phpinfo() page at /info.php
+  copy: src=info.php dest=/var/www/info.php  force=no
+
+- name: Development | Install apc page at /apc.php
+  copy: src=apc.php dest=/var/www/apc.php  force=no
+
+- name: Development | Remove /index.html 
+  file: dest=/var/www/index.html state=absent
