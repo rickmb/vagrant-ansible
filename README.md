@@ -10,6 +10,7 @@
 ## Usage
 
 1. Clone this repo.
+1. Pick a Vagrant config (Vagrantfile.*) to start with by copying it to "Vagrantfile".
 1. Edit **Vagrantfile** to your liking. Or at least read it so you know what's going to happen.
 1. Type **vagrant up**
 1. If you're using NFS for your sync folder, you're likely to be prompted for you *local* password early in the process. This is because Vagrant needs to edit /etc/exports.
@@ -34,6 +35,11 @@ This is the configuration for Vagrant. Just read the comments. Pay special atten
 
 * The **config.vm.synced_folder** setting. Your preference may vary depending on your system, workflow and project.
 * The **ansible.playbook** setting. Look in /ansible/*.yml for various alternatives.
+
+There are a few flavors in this repo:
+* **Vagrantfile.Lite** : A simple LAMP box.
+* **Vagrantfile.Dev** : A simple LAMP box with some common development tools.
+* **Vagrantfile.CaasDev : A CaaS development box, with optional auto-install of CaaS sites.
 
 ### ansible/
 

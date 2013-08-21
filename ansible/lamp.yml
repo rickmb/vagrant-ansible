@@ -1,0 +1,8 @@
+---
+- hosts: vagrant
+  sudo: True
+  roles:
+    # Standard LAMP stuff, including common Apache and PHP mods, minus MySQL server
+    - common
+    # MySQL server commes separate, you don't want this if you're using an external DB.
+    - dbserver
