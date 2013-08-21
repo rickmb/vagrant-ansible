@@ -11,7 +11,7 @@
 
 1. Clone this repo.
 1. Edit **Vagrantfile** to your liking. Or at least read it so you know what's going to happen.
-1. Type "**vagrant up**".
+1. Type **vagrant up**
 1. If you're using NFS for your sync folder, you're likely to be prompted for you *local* password early in the process. This is because Vagrant needs to edit /etc/exports.
 1. Get some coffee.
 1. ...
@@ -64,11 +64,10 @@ Stuff we need for development, but try to avoid installing on production systems
 
 ##### caas-development/
 
-Installs CaaS on the system. This includes everything from cloning it from Github to installing a running version of the "main" site and database.
+Installs CaaS on the system. This includes everything from cloning it from Github, setting up the directories and running composer.
+Also, it can optionally set up CaaS sites for you with the optional variable "sites" (see Vagrantfile).
 
 Code is installed on /vagrant/projects, which is synced with your local system on /projects.
-
-You can use this role a template for your own projects.
 
 #### group_vars/
 

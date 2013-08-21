@@ -62,6 +62,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "ansible/caas-development.yml"
     ansible.inventory_file = "ansible/development"
-    ansible.options = "-vvv"
+    # Installs the "main" site for you. Remove if you don't want it.
+    ansible.extra_vars = { sites: ["\'main\'"] }
+    # Example of doing this for multiple sites:
+    # ansible.extra_vars = { sites: ["\'opc\',\'main\',\'ebs\'"], foo: "bar" }
   end
 end

@@ -1,17 +1,14 @@
 # Add a vhost config, but don't overwrite an existing one
-- name: CaaS Development | Main vhost config
+- name: CaaS Site | VirtualHost config for {{ caas_site }}
   template: src=apache-caas-dev-site.j2 dest=/etc/apache2/sites-available/caas-dev-{{ caas_site }} force=no
 
 # Make sure the vhost is enabled
-- name: CaaS Development | Enable caas development vhost
+- name: CaaS Site | Enable caas development vhost for {{ caas_site }}
   command: a2ensite caas-dev-{{ caas_site }} 
   notify: restart apache
 
-#- name: CaaS Development | Disable default vhosts
-#  command: a2dissite default
-#  notify: restart apache
-
-- name: CaaS Development | Create database {{ caas_db }} 
+# Create database if not already present
+- name: CaaS Site | Create database {{ caas_db }} 
   mysql_db: name={{ caas_db }} state=present
   register: db_creation_result
 
@@ -32,7 +29,7 @@
 - name: CaaS Development | Install assets
   command: app/console assets:install web --site {{ caas_site }} --no-interaction chdir={{ dev_projects }}/Caas
 
+# Loads dummy data if the db is brand new
 - name: CaaS Development | Populate brand new database with dummy data
   command: app/console doctrine:fixtures:load --fixtures=src/Caas/Bundle/WebBundle/Tests/DataFixtures/ -e dev --site {{ caas_site }} --no-interaction chdir={{ dev_projects }}/Caas
   when: db_creation_result.changed
-

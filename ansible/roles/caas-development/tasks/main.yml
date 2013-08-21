@@ -16,10 +16,11 @@
   sudo_user: vagrant
 
 - name: CaaS Development | Run the caas init script
-  action: command {{ dev_home }}/caas-init.sh chdir={{ dev_projects }}/Caas
-  # creates={{ dev_projects }}/Caas/web/media/upload
+  action: command {{ dev_home }}/caas-init.sh chdir={{ dev_projects }}/Caas creates={{ dev_projects }}/Caas/web/media/upload
   sudo_user: vagrant
 
-# Installs a specific CaaS site
-- include: site.yml
+# Installs specific CaaS sites if defined
+- include: site.yml caas_site="{{ item }}" caas_db="caas_{{ item }}"
+  with_items: sites
+  when: sites is defined
 

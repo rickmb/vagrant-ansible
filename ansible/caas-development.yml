@@ -16,8 +16,7 @@
     # Development tools. Think SASS/Compass, Git, etc.
     - development
     # Prepare the machine for CaaS development
-    #- caas-development
-    - { role: caas-development, caas_site: 'ebs',  caas_db: 'caas_ebs' }
+    - caas-development
 
 # Yeah, that's it.
 # How to use:
