@@ -25,11 +25,14 @@ The result will depend on your Vagrantfile settings and the playbook you selecte
 
 * **VagrantFile** : Vagrant configuration.
 * **ansible/** : The Ansible provisioning definitions, a.k.a. "playbooks".
-* **projects/** : This is your working directory. it will be synced in the Vagrant box with /home/vagrant/projects.
+* **projects/** : This is your working directory. It will be synced in the Vagrant box with /vagrant/projects.
 
 ### Vagrantfile
 
-This is the configuration for Vagrant. Just read the comments.
+This is the configuration for Vagrant. Just read the comments. Pay special attention to:
+
+* The **config.vm.synced_folder** setting. Your preference may vary depending on your system, workflow and project.
+* The **ansible.playbook** setting. Look in /ansible/*.yml for various alternatives.
 
 ### ansible/
 
@@ -39,41 +42,38 @@ It currently contains the following:
 
 * **development** : This file contains the hosts Ansible has to provision for development. It's just a single entry with the IP address of the Vagrant box.
 * **caas-development.yml** : This is the playbook for a CaaS development box. It's basically just a lost of "roles" to be applied. Just read the file.
+* **development.yml** : This is the playbook for a pretty much standard PHP development box.
 * **roles/** : This contains various partial playbooks for specific purposes. The structure is based on Ansible's best practices guide and defaults. Some of these roles are ridiculously simple, but splitting them up this way allows re-use without duplication.
 
 The roles folder structure makes the Ansible playbook look a bit more complex than it really is. For instance, 95% of what you need for a LAMP system is all in this single file: https://github.com/rickmb/vagrant-ansible/blob/master/ansible/roles/common/tasks/main.yml
 
 #### roles/
 
-##### common
+##### common/
 
 Basic LAMP stuff every PHP project needs. Apache, PHP, modules, etcetera. Please note that this does not include MySQL server. That's a separate role, allowing us to provision boxes that don't need MySQL or use an external DB-server.
 
-##### dbserver
+##### dbserver/
 
 Guess what?
 
-##### development
+##### development/
 
 Stuff we need for development, but try to avoid installing on production systems (although we tend to be lazy about that separation). For instance Git, Sass/Compass, etcetera.
 
-##### caas-development
+##### caas-development/
 
 Installs CaaS on the system. This includes everything from cloning it from Github to installing a running version of the "main" site and database.
 
-Code is installed on /home/vagrant/projects, which is synced with your local system on /projects.
+Code is installed on /vagrant/projects, which is synced with your local system on /projects.
 
-## Questions (and possible answers)
-*There are no stupid questions, just a lot of inquisitive idiots.*
+#### group_vars/
 
-### What if I want my workspace (/projects) elsewhere?
+Contains variables per hosts group.
 
-On your local system, all you have to do is change the local path declared in the Vagrantfile. If you already have the Vagrant box running, you should bring it down first before doing that.
+##### vagrant
 
-If you want to change the path inside the Vagrant box however, you will not only have to change the path in the Vagrantfile, but also adjust where the Ansible playbooks install their stuff. Start by editting ansible/group_vars/vagrant. If all playbooks play nice, this is all you have to do. However, this is completely untested.
-
-I would also suggest destroying the VM (vagrant destroy) and bringing it back up if you do this on a running box.
-
+Defines some vagrant specific stuff, like the path to the users home directory and where to install projects.
 
 ## TODO
 

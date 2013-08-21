@@ -54,6 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #    - Upon starting the box you will be asked for the password of your local system.
   #    - Changing file ownership will not work on the NFS share. The config below ensures
   #      everything is writeable, but chown will crash.
+  #
   config.vm.synced_folder ".", "/vagrant", :extra => 'dmode=777,fmode=777', :nfs => true
 
   # Here you can change the playbook or the hosts file for Ansible.
