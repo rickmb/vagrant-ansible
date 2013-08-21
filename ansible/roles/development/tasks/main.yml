@@ -15,6 +15,12 @@
 - name: Development | Sass globbing
   gem: name=sass-globbing version=1.0.0.rc.2 state=present 
 
+- name: Development | Install phpMyAdmin
+  action: apt pkg=phpmyadmin state=installed
+
+- name: Development | Set up phpMyAdmin under Apache (/phpmyadmin)
+  file: src=/etc/phpmyadmin/apache.conf dest=/etc/apache2/conf.d/phpmyadmin.conf state=link
+
 - name: Development | Install phpinfo() page at /info.php
   copy: src=info.php dest=/var/www/info.php  force=no
 

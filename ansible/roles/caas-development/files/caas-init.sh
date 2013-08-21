@@ -51,6 +51,8 @@ else
         echo "...Failing everything else, just making all relevant dirs owner $APACHEUSER"
         sudo chown -R $APACHEUSER $APACHE_DIRS
         if [ "$?" = "0" ]; then
+            echo "...Yeah, that worked!"
+        else
             echo "...You have got to be kidding me!"
             echo "...Okay, this may happen on an NFS share or some shit like that."
             echo "...Now we're just going all out world-writable. Fuck security."

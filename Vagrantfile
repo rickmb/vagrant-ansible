@@ -62,5 +62,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "ansible/caas-development.yml"
     ansible.inventory_file = "ansible/development"
+    ansible.options = "-vvv"
   end
 end
