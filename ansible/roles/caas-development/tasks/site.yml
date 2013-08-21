@@ -18,7 +18,7 @@
 # Installing parameters.yml from local template.
 # (the parameters.yml that comes with CaaS is outdated)
 - name: CaaS Development | Install parameters.yml for {{ caas_site }}
-  template: src=parameters-yml.j2 dest={{ dev_projects }}/Caas/sites/{{ caas_site }}/config/parameters.yml force=no mode=0644 owner=vagrant
+  template: src=parameters-yml.j2 dest={{ dev_projects }}/Caas/sites/{{ caas_site }}/config/parameters.yml force=no mode=0644
 
 - name: CaaS Development | Warmup cache for {{ caas_site }}
   command: app/console cache:warmup --site {{ caas_site }} -e dev --no-interaction chdir={{ dev_projects }}/Caas

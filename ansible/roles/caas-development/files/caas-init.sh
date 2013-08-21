@@ -50,6 +50,12 @@ else
         echo "...Seriously, why do I even bother?"
         echo "...Failing everything else, just making all relevant dirs owner $APACHEUSER"
         sudo chown -R $APACHEUSER $APACHE_DIRS
+        if [ "$?" = "0" ]; then
+            echo "...You have got to be kidding me!"
+            echo "...Okay, this may happen on an NFS share or some shit like that."
+            echo "...Now we're just going all out world-writable. Fuck security."
+            sudo chmod -R 777 $APACHE_DIRS
+        fi
     fi
 fi
 
@@ -58,7 +64,6 @@ if [ ! -f sites/core/config/parameters.yml ]; then
     cp app/config/parameters.dist.yml sites/core/config/parameters.yml
 fi
 
-# Force prefer-source, because something is b0rken at symfony/icu or github 
-# at the time of writing this script.
 ./bin/composer.phar install --dev 
 # --prefer-source
+# Add the prefer-source option if this fails. Github packages tend to be b0rken.

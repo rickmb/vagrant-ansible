@@ -1,5 +1,5 @@
 ---
-# This playbook will set up a vagrant box for CaaS development.
+# This playbook will set up a vagrant box for generic LAMP development.
 # See the various roles (especially roles/*/tasks/main.yml) for more details.
 
 # Looks for the [vagrant] section in the hosts file to determine which machines
@@ -15,9 +15,6 @@
     - dbserver
     # Development tools. Think SASS/Compass, Git, etc.
     - development
-    # Prepare the machine for CaaS development
-    #- caas-development
-    - { role: caas-development, caas_site: 'ebs',  caas_db: 'caas_ebs' }
 
 # Yeah, that's it.
 # How to use:

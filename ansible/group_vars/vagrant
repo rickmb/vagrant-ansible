@@ -1,2 +1,2 @@
 dev_home : /home/vagrant
-dev_projects : /home/vagrant/projects
+dev_projects : /vagrant/projects

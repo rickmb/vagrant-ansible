@@ -12,7 +12,8 @@
   sudo_user: vagrant
 
 - name: CaaS Development | Install caas init script
-  copy: src=caas-init.sh dest={{ dev_home }}/caas-init.sh mode=0755 owner=vagrant
+  copy: src=caas-init.sh dest={{ dev_home }}/caas-init.sh mode=0755
+  sudo_user: vagrant
 
 - name: CaaS Development | Run the caas init script
   action: command {{ dev_home }}/caas-init.sh chdir={{ dev_projects }}/Caas
