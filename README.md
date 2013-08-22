@@ -16,7 +16,7 @@
 1. If you're using NFS for your sync folder, you're likely to be prompted for you *local* password early in the process. This is because Vagrant needs to edit /etc/exports.
 1. Get some coffee.
 1. ...
-1. Seriously, get that coffee. If this is the first time you're initializing this box, this is going to take a while.
+1. Seriously, get that coffee. If this is the first time you're initializing this box, this is may take a while.
 1. ...
 1. Also, if you're provisioning the caas-development.yml playbook, you might as well grab a bite to eat. Installing CaaS for the first time takes ages.
 
@@ -39,7 +39,7 @@ This is the configuration for Vagrant. Just read the comments. Pay special atten
 There are a few flavors in this repo:
 * **Vagrantfile.Lite** : A simple LAMP box.
 * **Vagrantfile.Dev** : A simple LAMP box with some common development tools.
-* **Vagrantfile.CaasDev : A CaaS development box, with optional auto-install of CaaS sites.
+* **Vagrantfile.CaasDev** : A CaaS development box, with optional auto-install of CaaS sites. *Please note that because of the size of CaaS, this config uses NFS for the shared directory. This will not work on Windows, check the config for alternative options.*
 
 ### ansible/
 
@@ -75,6 +75,15 @@ Also, it can optionally set up CaaS sites for you with the optional variable "si
 
 Code is installed on /vagrant/projects, which is synced with your local system on /projects.
 
+**Notes about the automatic set-up of CaaS and CaaS sites**
+* If there is already a git checkout of CaaS, it will neither be updated nor overwritten.
+* Apache configs are created as /etc/apache2/sites-available/caas-dev-{site}, but existing ones are not overwritten.
+* sites/{sites}/paramaters.yml is installed, but not overwritten if there is already one there.
+* A database caas_{site} is created, but only if not already there.
+* The database is populated with the dummy data only if the Ansible has just created the database.
+
+In other words: if you re-run vagrant provision after you've made changes, any changes you've made to the data or configuration will remain untouched as much as possible.
+
 #### group_vars/
 
 Contains variables per hosts group.
@@ -88,10 +97,8 @@ Defines some vagrant specific stuff, like the path to the users home directory a
 
 ## TODO
 
-* Complete this documentation.
-* Make it possible to easily pre-select which CaaS-sites to configure.
-* Make the playbook more robust.
-* Add some playbooks for basic non-CaaS projects. (Which is basically just omitting the caas-development role.)
+* Make the playbook more robust (especially when it comes to re-running provision on an existing box)
 * Create a playbook for setting up an EC2 instance instead of a Vagrant box.
-* Create a playbook for simulating CaaS production environments.
+* Create playbooks for simulating CaaS production environments.
+* Create playbooks for simulating Fundrz/9apps environments.
 

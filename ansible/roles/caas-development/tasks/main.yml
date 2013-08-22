@@ -19,6 +19,9 @@
   action: command {{ dev_home }}/caas-init.sh chdir={{ dev_projects }}/Caas creates={{ dev_projects }}/Caas/web/media/upload
   sudo_user: vagrant
 
+- name: Development | Install python-yaml
+  action: apt pkg=python-yaml state=installed
+
 # Installs specific CaaS sites if defined
 - include: site.yml caas_site="{{ item }}" caas_db="caas_{{ item }}"
   with_items: sites

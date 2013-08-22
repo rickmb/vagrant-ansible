@@ -21,6 +21,9 @@
 - name: Development | Set up phpMyAdmin under Apache (/phpmyadmin)
   file: src=/etc/phpmyadmin/apache.conf dest=/etc/apache2/conf.d/phpmyadmin.conf state=link
 
+- name: Development | Make phpmyadmin accessible without password
+  lineinfile: dest=/etc/phpmyadmin/config.inc.php regexp='^(.*)\/\/(.*)AllowNoPassword(.*)' line='\1\2AllowNoPassword\3'
+
 - name: Development | Install phpinfo() page at /info.php
   copy: src=info.php dest=/var/www/info.php  force=no
 
