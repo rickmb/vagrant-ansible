@@ -21,8 +21,13 @@
 - name: Development | Set up phpMyAdmin under Apache (/phpmyadmin)
   file: src=/etc/phpmyadmin/apache.conf dest=/etc/apache2/conf.d/phpmyadmin.conf state=link
 
-- name: Development | Make phpmyadmin accessible without password
-  lineinfile: dest=/etc/phpmyadmin/config.inc.php regexp='^(.*)\/\/(.*)AllowNoPassword(.*)' line='\1\2AllowNoPassword\3'
+- name: Development | Make phpmyadmin accessible without password (1st occurence)
+  lineinfile: dest=/etc/phpmyadmin/config.inc.php regexp='\/\/(.*)AllowNoPassword(.*)' line='\1AllowNoPassword\2' backrefs=yes backup=yes
+
+# This is a bit of a hack. The line appears twice, only the first really needs to be changed,
+# but Ansible picks the last one on the first pass... 
+- name: Development | Make phpmyadmin accessible without password (2nd occurence)
+  lineinfile: dest=/etc/phpmyadmin/config.inc.php regexp='\/\/(.*)AllowNoPassword(.*)' line='\1AllowNoPassword\2' backrefs=yes
 
 - name: Development | Install phpinfo() page at /info.php
   copy: src=info.php dest=/var/www/info.php  force=no
