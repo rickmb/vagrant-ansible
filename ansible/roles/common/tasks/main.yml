@@ -2,10 +2,10 @@
 - name: Commmon | Update repository
   action: command /usr/bin/apt-get update
 
-- name: Apache | Install
+- name: Common | Apache
   action: apt pkg=apache2 state=installed
 
-- name: Apache | Enable some required modules
+- name: Common | Apache equired modules
   action: command a2enmod $item
   notify: restart apache
   with_items:
@@ -16,7 +16,7 @@
     - filter
     - ssl
 
-- name: PHP | Core and required modules
+- name: Common | PHP core and required modules
   action: apt pkg=$item state=installed
   notify: restart apache
   tags: common
@@ -32,13 +32,16 @@
     - php5-memcached
 
 # Only install the client, you may want to use the DB-server on a different machine
-- name: MySQL | Client only
+- name: Common | MySQL Client only
   action: apt pkg=mysql-client state=installed
 
 # Need this to run mysql commands via Ansible
-- name: CaaS Development | Ensure python-mysqldb is available
+- name: Common | Ensure python-mysqldb is available
   apt: pkg=python-mysqldb state=installed
 
 # Install ACL, but you'll have to do the mount config yourself in most cases
-- name: ACL | Have ACL available
+- name: Common | ACL
   action: apt pkg=acl state=installed
+
+- name: Common | cURL
+  action: apt pkg=curl state=installed
