@@ -1,0 +1,30 @@
+- name: Fundrz-simulate | Install fake AWS json user-data/meta-data responses (ensure paths exists)
+  file: path=/var/www/latest/meta-data/placement state=directory
+
+- name: Fundrz-simulate | Install fake AWS json  user-data response
+  copy: src=aws-user-data dest=/var/www/latest/user-data force=no
+
+- name: Fundrz-simulate | Install fake AWS json  meta-data/public-hostname response
+  copy: src=aws-public-hostname dest=/var/www/latest/meta-data/public-hostname force=no
+
+- name: Fundrz-simulate | Install fake AWS json  meta-data/public-hostname response
+  copy: src=aws-availability-zone dest=/var/www/latest/meta-data/placement/availability-zone force=no
+
+- name: Fundrz-simulate | Route AWS user-data request to localhost
+  command: iptables -t nat -A OUTPUT -d 169.254.169.254 -j DNAT --to-destination 127.0.0.1
+
+- name: Fundrz-simulate | SAD (9apps deployment tools)
+  git: repo=https://github.com/9apps/SAD.git dest=/root/sad
+
+- name: Fundrz-simulate | Python boto (AWS libraries for python)
+  action: apt pkg=python-boto state=installed
+
+- name: Fundrz-simulate | S3cmd
+  action: apt pkg=s3cmd state=installed
+
+- name: Fundrz-simulate | Place s3cmd config for system
+  copy: src=s3cmd.cfg dest=/root/.s3cfg force=no
+
+- name: Fundrz-simulate | Place s3cmd config for root
+  copy: src=s3cmd.cfg dest=/etc/default/s3cmd.cfg force=no
+
