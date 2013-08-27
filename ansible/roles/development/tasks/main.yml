@@ -37,3 +37,6 @@
 
 - name: Development | Remove /index.html 
   file: dest=/var/www/index.html state=absent
+
+- name: Development | Capistrano
+  action: apt pkg=capistrano state=installed
