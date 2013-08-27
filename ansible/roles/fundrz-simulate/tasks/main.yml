@@ -2,7 +2,7 @@
   file: path=/var/www/latest/meta-data/placement state=directory
 
 - name: Fundrz-simulate | Install fake AWS json  user-data response
-  copy: src=aws-user-data dest=/var/www/latest/user-data force=no
+  template: src=aws-user-data.j2 dest=/var/www/latest/user-data force=no mode=0644
 
 - name: Fundrz-simulate | Install fake AWS json  meta-data/public-hostname response
   copy: src=aws-public-hostname dest=/var/www/latest/meta-data/public-hostname force=no
@@ -23,8 +23,8 @@
   action: apt pkg=s3cmd state=installed
 
 - name: Fundrz-simulate | Place s3cmd config for system
-  copy: src=s3cmd.cfg dest=/root/.s3cfg force=no
+  template: src=s3cmd-cfg.j2 dest=/root/.s3cfg force=no
 
 - name: Fundrz-simulate | Place s3cmd config for root
-  copy: src=s3cmd.cfg dest=/etc/default/s3cmd.cfg force=no
+  template: src=s3cmd-cfg.j2 dest=/etc/default/s3cmd.cfg force=no
 

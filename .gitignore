@@ -1,5 +1,3 @@
 .vagrant/*
 projects/*
-.s3cfg
-s3cmd.cfg
-user-data
+Vagrantfile
