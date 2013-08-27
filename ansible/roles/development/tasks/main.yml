@@ -1,7 +1,10 @@
 - name: Development | Install Git
   action: apt pkg=git state=installed
 
-- name: Development | Ruby for tools
+- name: Development | Ensure Ruby 1.8 is not present
+  action: apt pkg=ruby1.8 state=absent
+
+- name: Development | Ensure Ruby 1.9 is present
   action: apt pkg=ruby1.9.1 state=installed
 
 - name: Development | Sass
@@ -12,6 +15,7 @@
 
 # not sure about this, can't pass --pre
 # maybe replace with "command gem install sass-globbing -v 1.0.0.rc.2 --pre"
+# but this seems to work okay in the current context
 - name: Development | Sass globbing
   gem: name=sass-globbing version=1.0.0.rc.2 state=present 
 
@@ -39,4 +43,12 @@
   file: dest=/var/www/index.html state=absent
 
 - name: Development | Capistrano
-  action: apt pkg=capistrano state=installed
+  gem: name=capistrano state=present
+# action: apt pkg=capistrano state=installed
+
+- name: Development | Capistrano dependencies
+  gem: name=$item state=present
+  with_items:
+    - colored
+    - railsless-deploy 
+
