@@ -29,6 +29,7 @@
     - php-apc
     - php5-curl
     - php5-intl
+    - php5-memcache
     - php5-memcached
 
 # Only install the client, you may want to use the DB-server on a different machine
