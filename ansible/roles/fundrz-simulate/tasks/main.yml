@@ -13,9 +13,6 @@
 - name: Fundrz-simulate | Route AWS user-data request to localhost
   command: iptables -t nat -A OUTPUT -d 169.254.169.254 -j DNAT --to-destination 127.0.0.1
 
-- name: Fundrz-simulate | SAD (9apps deployment tools)
-  git: repo=https://github.com/9apps/SAD.git dest=/root/sad
-
 - name: Fundrz-simulate | Python boto (AWS libraries for python)
   action: apt pkg=python-boto state=installed
 
@@ -28,3 +25,9 @@
 - name: Fundrz-simulate | Place s3cmd config for root
   template: src=s3cmd-cfg.j2 dest=/etc/default/s3cmd.cfg force=no
 
+- name: Fundrz-simulate | 9apps AMI shizzle
+  git: repo=git@github.com:9apps/webclusive-fundrz-AMI.git dest={{ dev_projects }}/9apps update=no
+  sudo_user: vagrant
+
+- name: Fundrz-simulate | SAD (9apps deployment tools)
+  command: cp -ar {{ dev_projects }}/9apps/root/sad /root/.

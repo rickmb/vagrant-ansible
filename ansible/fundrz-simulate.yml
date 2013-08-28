@@ -1,0 +1,9 @@
+---
+- hosts: vagrant
+  sudo: True
+  roles:
+ #   - common
+ #   - dbserver
+ #   - development
+ #   - caas-development
+    - fundrz-simulate
