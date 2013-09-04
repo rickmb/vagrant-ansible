@@ -2,8 +2,8 @@
 - hosts: vagrant
   sudo: True
   roles:
- #   - common
- #   - dbserver
+    - common
+    - dbserver
  #   - development
  #   - caas-development
     - fundrz-simulate

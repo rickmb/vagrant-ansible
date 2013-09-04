@@ -25,6 +25,17 @@
 - name: Fundrz-simulate | Place s3cmd config for root
   template: src=s3cmd-cfg.j2 dest=/etc/default/s3cmd.cfg force=no
 
+- name: Fundrz-simulate | Install Git
+  action: apt pkg=git state=installed
+
+- name: Fundrz-simulate | adding your private key for Github access
+  copy: src=~/.ssh/id_rsa dest={{ dev_home }}/.ssh/id_rsa force=no mode=600
+  sudo_user: vagrant
+
+- name: Fundrz-simulate | No strict key checking
+  lineinfile: dest={{ dev_home }}/.ssh/config line="StrictHostKeyChecking no" regexp='^' state=present create=yes
+  sudo_user: vagrant
+
 - name: Fundrz-simulate | 9apps AMI shizzle
   git: repo=git@github.com:9apps/webclusive-fundrz-AMI.git dest={{ dev_projects }}/9apps update=no
   sudo_user: vagrant
