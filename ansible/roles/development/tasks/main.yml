@@ -1,3 +1,6 @@
+- name: Development | Add your own key to the authorized_keys of vagrant
+  authorized_key: user=vagrant key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
 - name: Development | Install Git
   action: apt pkg=git state=installed
 
